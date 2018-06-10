@@ -90,9 +90,10 @@ namespace modules {
     bool m_monitorsupport{true};
 
     vector<string> m_desktop_names;
+    vector<unsigned int> m_desktop_client_count;
     unsigned int m_current_desktop;
 
-    vector<xcb_window_t> m_clientlist;
+    vector<pair<xcb_window_t, unsigned int>> m_clientlist;
     vector<unique_ptr<viewport>> m_viewports;
     map<desktop_state, label_t> m_labels;
     label_t m_monitorlabel;

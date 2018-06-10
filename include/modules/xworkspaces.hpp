@@ -67,6 +67,7 @@ namespace modules {
     void rebuild_desktops();
     void rebuild_desktop_states();
     void set_desktop_urgent(xcb_window_t window);
+    void update_client_desktop(const xcb_window_t window);
 
     bool input(string&& cmd);
 

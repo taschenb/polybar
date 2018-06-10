@@ -106,6 +106,9 @@ namespace modules {
     } else if (evt->atom == m_ewmh->_NET_CURRENT_DESKTOP) {
       m_current_desktop = ewmh_util::get_current_desktop();
       rebuild_desktop_states();
+    } else if (evt->atom == m_ewmh->_NET_WM_DESKTOP) {
+      update_client_desktop(evt->window);
+      rebuild_desktop_states();
     } else if (evt->atom == WM_HINTS) {
       if (icccm_util::get_wm_urgency(m_connection, evt->window)) {
         set_desktop_urgent(evt->window);
@@ -263,6 +266,23 @@ namespace modules {
           return;
         }
       }
+    }
+  }
+
+  /**
+   * Update the client's current desktop
+   */
+  void xworkspaces_module::update_client_desktop(xcb_window_t window) {
+    auto outdated_client =
+        std::find_if(m_clientlist.begin(), m_clientlist.end(), [&](auto c) { return c.first == window; });
+
+    if (outdated_client != m_clientlist.end()) {
+      auto new_desktop = ewmh_util::get_desktop_from_window(window);
+
+      --m_desktop_client_count.at(outdated_client->second);
+      ++m_desktop_client_count.at(new_desktop);
+
+      outdated_client->second = new_desktop;
     }
   }
 

@@ -17,7 +17,7 @@ namespace {
   inline bool operator==(const position& a, const position& b) {
     return a.x + a.y == b.x + b.y;
   }
-}
+}  // namespace
 
 namespace modules {
   template class module<xworkspaces_module>;
@@ -208,7 +208,7 @@ namespace modules {
           d->state = desktop_state::ACTIVE;
         } else {
           d->state = desktop_state::EMPTY;
-        } 
+        }
 
         d->label = m_labels.at(d->state)->clone();
         d->label->reset_tokens();
@@ -224,7 +224,7 @@ namespace modules {
    */
   void xworkspaces_module::set_desktop_urgent(xcb_window_t window) {
     auto desk = ewmh_util::get_desktop_from_window(window);
-    if(desk == m_current_desktop)
+    if (desk == m_current_desktop)
       // ignore if current desktop is urgent
       return;
     for (auto&& v : m_viewports) {
@@ -241,7 +241,6 @@ namespace modules {
         }
       }
     }
-
   }
 
   /**
@@ -349,6 +348,6 @@ namespace modules {
 
     return true;
   }
-}
+}  // namespace modules
 
 POLYBAR_NS_END
